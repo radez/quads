@@ -27,7 +27,8 @@ import fcntl
 import errno
 import threading
 
-from data import QuadsData
+#from data import QuadsData
+from quads import data
 
 class Quads(object):
     def __init__(self, config, statedir, movecommand, datearg, syncstate,
@@ -119,7 +120,7 @@ class Quads(object):
                     fcntl.flock(config_file, fcntl.LOCK_EX | fcntl.LOCK_NB)
                     config_file.write(yaml.dump(data, default_flow_style=False))
                     fcntl.flock(config_file, fcntl.LOCK_UN)
-            except Exception, ex:
+            except Exception as ex:
                 self.logger.error("There was a problem with your file %s" % ex)
         self.thread_lock.acquire()
         try:
@@ -133,7 +134,7 @@ class Quads(object):
                     if e.errno != errno.EAGAIN:
                         raise
 
-        except Exception, ex:
+        except Exception as ex:
             self.logger.error("There was a problem with your file %s" % ex)
 
         self.thread_lock.release()
@@ -155,7 +156,7 @@ class Quads(object):
                     fcntl.flock(yaml_file, fcntl.LOCK_UN)
                 self.read_data()
                 return True
-            except Exception, ex:
+            except Exception as ex:
                 self.logger.error("There was a problem with your file %s" % ex)
                 return False
 
@@ -179,7 +180,7 @@ class Quads(object):
                     data = {"clouds":{}, "hosts":{}, "history":{}, "cloud_history":{}}
                     stream.write( yaml.dump(data, default_flow_style=False))
                     return True
-                except Exception, ex:
+                except Exception as ex:
                     self.logger.error("There was a problem with your file %s" % ex)
                     return False
         else:
@@ -201,7 +202,7 @@ class Quads(object):
             else:
                 try:
                     requested_time =datetime.datetime.strptime(datearg, '%Y-%m-%d %H:%M')
-                except Exception, ex:
+                except Exception as ex:
                     self.logger.error("Data format error : %s" % ex)
                     return None, None, None
 
@@ -254,7 +255,7 @@ class Quads(object):
                     stream = open(self.statedir + "/" + h, 'w')
                     stream.write(current_cloud + '\n')
                     stream.close()
-                except Exception, ex:
+                except Exception as ex:
                     self.logger.error("There was a problem with your file %s" % ex)
         return
 
@@ -541,14 +542,14 @@ class Quads(object):
         self.thread_lock.acquire()
         try:
             datetime.datetime.strptime(schedstart, '%Y-%m-%d %H:%M')
-        except Exception, ex:
+        except Exception as ex:
             self.logger.error("Data format error : %s" % ex)
             self.thread_lock.release()
             return ["Data format error : %s" % ex]
 
         try:
             datetime.datetime.strptime(schedend, '%Y-%m-%d %H:%M')
-        except Exception, ex:
+        except Exception as ex:
             self.logger.error("Data format error : %s" % ex)
             self.thread_lock.release()
             return ["Data format error : %s" % ex]
@@ -652,7 +653,7 @@ class Quads(object):
         if schedstart:
             try:
                 datetime.datetime.strptime(schedstart, '%Y-%m-%d %H:%M')
-            except Exception, ex:
+            except Exception as ex:
                 self.logger.error("Data format error : %s" % ex)
                 self.thread_lock.release()
                 return ["Data format error : %s" % ex]
@@ -660,7 +661,7 @@ class Quads(object):
         if schedend:
             try:
                 datetime.datetime.strptime(schedend, '%Y-%m-%d %H:%M')
-            except Exception, ex:
+            except Exception as ex:
                 self.logger.error("Data format error : %s" % ex)
                 self.thread_lock.release()
                 return ["Data format error : %s" % ex]
@@ -781,7 +782,7 @@ class Quads(object):
                             time.sleep(0.1)
                 self.read_data()
                 fcntl.flock(config_file, fcntl.LOCK_UN)
-        except Exception, ex:
+        except Exception as ex:
             self.logger.error(ex)
             exit(1)
         for h in sorted(self.quads.hosts.data.iterkeys()):
@@ -791,7 +792,7 @@ class Quads(object):
                     stream = open(statedir + "/" + h, 'w')
                     stream.write(current_cloud + '\n')
                     stream.close()
-                except Exception, ex:
+                except Exception as ex:
                     self.logger.error("There was a problem with your file %s" % ex)
             else:
                 stream = open(statedir + "/" + h, 'r')
@@ -808,7 +809,7 @@ class Quads(object):
                                     subprocess.check_call([movecommand, h, current_state, current_cloud])
                             else:
                                 subprocess.check_call([movecommand, h, current_state, current_cloud])
-                        except Exception, ex:
+                        except Exception as ex:
                             self.logger.error("Move command failed: %s" % ex)
                             exit(1)
                         stream = open(statedir + "/" + h, 'w')
@@ -831,7 +832,7 @@ class Quads(object):
                     stream = open(statedir + "/" + h, 'w')
                     stream.write(current_cloud + '\n')
                     stream.close()
-                except Exception, ex:
+                except Exception as ex:
                     self.logger.error("There was a problem with your file %s" % ex)
             else:
                 stream = open(statedir + "/" + h, 'r')
@@ -928,7 +929,7 @@ class Quads(object):
         else:
             try:
                 requested_time = datetime.datetime.strptime(datearg, '%Y-%m-%d %H:%M')
-            except Exception, ex:
+            except Exception as ex:
                 self.logger.error("Data format error : %s" % ex)
                 return result
         summary = self.query_cloud_hosts(datearg)
