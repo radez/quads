@@ -169,7 +169,7 @@ def main():
         data = {'cloud': args.cloudresource,
                 'description': args.description,
                 'owner': args.cloudowner,
-                'cc': args.ccusers,
+                'ccuser': args.ccusers,
                 'qinq': args.qinq,
                 'wipe': args.wipe,
                 'ticket': args.cloudticket,
