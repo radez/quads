@@ -29,20 +29,6 @@ month = args.month
 year = args.year
 gentime = args.gentime
 
-# Load QUADS yaml config
-def quads_load_config(quads_config):
-    try:
-        with open(quads_config, 'r') as config_file:
-            try:
-                quads_config_yaml = yaml.safe_load(config_file)
-            except Exception, ex:
-                print "quads: Invalid YAML config: " + quads_config
-                exit(1)
-    except Exception, ex:
-        print ex
-        exit(1)
-    return(quads_config_yaml)
-
 quads_config_file = os.path.dirname(__file__) + "/../conf/quads.yml"
 quads_config = quads_load_config(quads_config_file)
 
