@@ -9,6 +9,7 @@ import subprocess
 import sys
 import yaml
 
+
 # Load QUADS yaml config
 def quads_load_config(quads_config):
     try:
@@ -22,6 +23,7 @@ def quads_load_config(quads_config):
         print(ex)
         exit(1)
     return quads_config_yaml
+
 
 logger = logging.getLogger('quads')
 ch = logging.StreamHandler(sys.stdout)
