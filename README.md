@@ -230,6 +230,24 @@ systemctl start quads-daemon.service
 ```
 
    - Note: RPM installations will have ```quads-cli``` and tools in your system $PATH but you will need to login to a new shell to pick it up.
+   
+### Running Quads from inside Docker (Experimental)
+   - Run a daemonized mongo container
+```bash
+docker run --name quads-mongo -d mongo
+```
+   - Run a daemonized quads server linked to our mongo instance
+```bash
+docker run -d --name quads -p 8080:8080 --link quads-mongo:mongo -e MONGODB_IP=mongo --rm grafuls/quads-dev
+```
+   - Run commands against containerized quads via docker exec
+```bash
+docker exec quads bin/quads-cli --define-cloud cloud01 --description cloud01
+```
+   - Enter mongo interactive mode
+```bash
+docker exec -it quads mongo --host mongo
+```
 
 ## QUADS Usage Documentation
 
