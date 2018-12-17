@@ -26,6 +26,8 @@ Automate scheduling and end-to-end provisioning of servers and networks.
       * [Installing QUADS](#installing-quads)
          * [Installing QUADS from Github](#installing-quads-from-github)
          * [Installing QUADS from RPM](#installing-quads-from-rpm)
+         * [Running Quads with Docker-compose (Experimental)](#running-quads-with-docker-compose-experimental)
+         * [Running Quads from inside Docker (Experimental)](#running-quads-from-inside-docker-experimental)
       * [QUADS Usage Documentation](#quads-usage-documentation)
       * [QUADS Switch and Host Setup](#quads-switch-and-host-setup)
       * [Common Administration Tasks](#common-administration-tasks)
@@ -230,6 +232,25 @@ systemctl start quads-daemon.service
 ```
 
    - Note: RPM installations will have ```quads-cli``` and tools in your system $PATH but you will need to login to a new shell to pick it up.
+   
+### Running Quads with Docker compose (Experimental)
+   - Clone repo and move to docker directory
+```bash
+git clone https://github.com/grafuls/quads.git && cd quads/docker
+```
+   - Run docker-compose
+```bash
+docker-compose up
+```
+   - Access Quads Wiki via browser at `http://localhost`
+   - Run commands against containerized quads via docker exec
+```bash
+docker exec quads bin/quads-cli --define-cloud cloud01 --description cloud01
+```
+   - Enter mongo interactive mode
+```bash
+docker exec -it quads mongo --host mongo
+```
    
 ### Running Quads from inside Docker (Experimental)
    - Run a daemonized mongo container
