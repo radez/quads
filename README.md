@@ -236,7 +236,7 @@ systemctl start quads-daemon.service
 ### Running Quads with Docker compose (Experimental)
    - Clone repo and move to docker directory
 ```bash
-git clone https://github.com/grafuls/quads.git && cd quads/docker
+git clone https://github.com/redhat-performance/quads.git && cd quads/docker
 ```
    - Run docker-compose
 ```bash
